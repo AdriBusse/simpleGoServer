@@ -39,7 +39,7 @@ func main() {
     mux.HandleFunc("/get", getCookieHandler)
 
     log.Print("Listening...")
-    err = http.ListenAndServe(":3000", mux)
+    err = http.ListenAndServe(":3333", mux)
     if err != nil {
         log.Fatal(err)
     }

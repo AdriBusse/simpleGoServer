@@ -6,6 +6,6 @@ COPY . ./
 RUN go mod download
 
 
-EXPOSE 3000
+EXPOSE 3333
 
 CMD [ "go", "run", "main.go" ]
