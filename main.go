@@ -11,7 +11,7 @@ import (
     "net/http"
 	"strings"
 
-	"example.com/go-webserver/internal/cookies"
+	"example.com/simpleGoServer/internal/cookies"
 )
 
 var secretKey string
