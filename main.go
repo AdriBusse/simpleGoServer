@@ -51,7 +51,7 @@ func pongHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func setCookieHandler(w http.ResponseWriter, r *http.Request) {
-    user := User{Username: "JohnDoe", Role: 1}
+    user := User{Username: "Secret User", Role: 1}
 
 	var buf bytes.Buffer
 
@@ -111,6 +111,7 @@ func getCookieHandler(w http.ResponseWriter, r *http.Request) {
 
     // Echo out the cookie value in the response body.
 	fmt.Fprintf(w, "Username: %s", user.Username)
+	fmt.Fprintf(w, "\n")
 	fmt.Fprintf(w, "Role: %s", fmt.Sprint(user.Role))
 }
 
