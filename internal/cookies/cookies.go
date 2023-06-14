@@ -20,23 +20,22 @@ var (
 )
 
 func Write(w http.ResponseWriter, cookie http.Cookie) error {
-    // Encode the cookie value using base64.
+    // Encode the cookie value base64.
     cookie.Value = base64.URLEncoding.EncodeToString([]byte(cookie.Value))
 
-    // Check the total length of the cookie contents. Return the ErrValueTooLong
-    // error if it's more than 4096 bytes.
+    // Check sizze of cookie
     if len(cookie.String()) > 4096 {
         return ErrValueTooLong
     }
 
-    // Write the cookie as normal.
+    // Write the cooki
     http.SetCookie(w, &cookie)
 
     return nil
 }
 
 func Read(r *http.Request, name string) (string, error) {
-    // Read the cookie as normal.
+    // Read the cookie .
     cookie, err := r.Cookie(name)
     if err != nil {
         return "", err
@@ -56,7 +55,7 @@ func Read(r *http.Request, name string) (string, error) {
 
 func WriteSigned(w http.ResponseWriter, cookie http.Cookie, secretKey string) error {
     // Calculate a HMAC signature of the cookie name and value, using SHA256 and
-    // a secret key (which we will create in a moment).
+    // a secret key.
     mac := hmac.New(sha256.New, []byte(secretKey))
     mac.Write([]byte(cookie.Name))
     mac.Write([]byte(cookie.Value))
@@ -65,8 +64,7 @@ func WriteSigned(w http.ResponseWriter, cookie http.Cookie, secretKey string) er
     // Prepend the cookie value with the HMAC signature.
     cookie.Value = string(signature) + cookie.Value
 
-    // Call our Write() helper to base64-encode the new cookie value and write
-    // the cookie.
+
     return Write(w, cookie)
 }
 
@@ -78,11 +76,6 @@ func ReadSigned(r *http.Request, name string, secretKey string) (string, error) 
         return "", err
     }
 
-    // A SHA256 HMAC signature has a fixed length of 32 bytes. To avoid a potential
-    // 'index out of range' panic in the next step, we need to check sure that the
-    // length of the signed cookie value is at least this long. We'll use the 
-    // sha256.Size constant here, rather than 32, just because it makes our code
-    // a bit more understandable at a glance.
     if len(signedValue) < sha256.Size {
         return "", ErrInvalidValue
     }

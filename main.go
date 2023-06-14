@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	//"encoding/hex"
 	"encoding/gob"
 
     "errors"
@@ -32,22 +31,22 @@ func main() {
         log.Fatal(err)
     }
 
-    // Start a web server with the two endpoints.
+    // Start a web server with 3 endpoints on port 3333.
     mux := http.NewServeMux()
-    mux.HandleFunc("/ping", pongHandler)
+    mux.HandleFunc("/", pongHandler)
     mux.HandleFunc("/set", setCookieHandler)
     mux.HandleFunc("/get", getCookieHandler)
 
-    log.Print("Listening...")
-    err = http.ListenAndServe(":3333", mux)
+    port := ":3333"
+    log.Print("Listening on port 3333...\n")
+    err = http.ListenAndServe(port, mux)
     if err != nil {
         log.Fatal(err)
     }
 }
 
 func pongHandler(w http.ResponseWriter, r *http.Request) {
-    // Write a HTTP response as normal.
-    w.Write([]byte("pong"))
+    w.Write([]byte("ping pong..."))
 }
 
 func setCookieHandler(w http.ResponseWriter, r *http.Request) {
@@ -66,7 +65,7 @@ func setCookieHandler(w http.ResponseWriter, r *http.Request) {
         Name:     "exampleCookie",
         Value:    buf.String(),
         Path:     "/",
-        MaxAge:   36000,
+        MaxAge:   36000000,
         HttpOnly: true,
         Secure:   false,
         SameSite: http.SameSiteLaxMode,
@@ -109,7 +108,6 @@ func getCookieHandler(w http.ResponseWriter, r *http.Request) {
 	}
   
 
-    // Echo out the cookie value in the response body.
 	fmt.Fprintf(w, "Username: %s", user.Username)
 	fmt.Fprintf(w, "\n")
 	fmt.Fprintf(w, "Role: %s", fmt.Sprint(user.Role))
