@@ -62,10 +62,10 @@ func setCookieHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cookie := http.Cookie{
-        Name:     "exampleCookie",
+        Name:     "EthicalHackingCookie",
         Value:    buf.String(),
         Path:     "/",
-        MaxAge:   36000000,
+        MaxAge:   360000000,
         HttpOnly: true,
         Secure:   false,
         SameSite: http.SameSiteLaxMode,
